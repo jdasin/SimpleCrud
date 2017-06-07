@@ -1,19 +1,43 @@
 package com.jdasin.www.simplecrud.entities;
 
+import com.jdasin.www.simplecrud.db.PeopleDB;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+
+import java.util.Date;
+
 /**
  * Created by az on 05-06-17.
  */
+@Table(database = PeopleDB.class)
+public class Person extends BaseModel {
+    @PrimaryKey(autoincrement = true)
+    @Column(name = "person_id")
+    private int personId;
 
-public class Person {
+    @Column
     private String name;
+
+    @Column
     private String address;
-    private String birthDate;
+
+    @Column(name = "birth_date")
+    private Date birthDate;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
+
+    @Column
     private String email;
 
     public Person(String name, String email) {
         this.name = name;
         this.email = email;
+    }
+
+    public Person() {
     }
 
     public String getName() {
@@ -32,11 +56,11 @@ public class Person {
         this.address = address;
     }
 
-    public String getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -54,5 +78,13 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 }
