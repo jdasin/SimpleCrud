@@ -6,4 +6,5 @@ package com.jdasin.www.simplecrud.list;
 
 public interface PeopleListModel {
     void loadPeople(int page);
+    void deletePerson(int personId);
 }

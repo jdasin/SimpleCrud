@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SimpleCRUD</string>
+    <string name="person.delete_button">Delete</string>
+    <string name="person.update_button">Update</string>
+    <string name="personform.name">Name</string>
+    <string name="personform.save">save</string>
+    <string name="personform.cancel">Cancel</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.jdasin.www.simplecrud.list;
+package com.jdasin.www.simplecrud.list.events;
 
 import com.jdasin.www.simplecrud.entities.Person;
 
@@ -10,6 +10,10 @@ import java.util.List;
 
 public class PeopleListEvent {
     private List<Person> people;
+
+    public PeopleListEvent() {
+    }
+
     public PeopleListEvent(List<Person> people) {
         this.setPeople(people);
     }

@@ -1,6 +1,9 @@
 package com.jdasin.www.simplecrud.list;
 
 import com.jdasin.www.simplecrud.entities.Person;
+import com.jdasin.www.simplecrud.list.events.PeopleListEvent;
+import com.jdasin.www.simplecrud.list.events.PersonDeletedEvent;
+import com.jdasin.www.simplecrud.list.events.PersonSelectedEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -16,21 +19,20 @@ public class PeopleListPresenterImpl implements PeopleListPresenter {
 
     PeopleListView peopleListView;
     PeopleListModel peopleListModel;
-    EventBus eventBus;
+
     public PeopleListPresenterImpl(PeopleListView view) {
         this.peopleListView = view;
         this.peopleListModel = new PeopleListModelImpl();
-        eventBus = EventBus.getDefault();
     }
 
     @Override
     public void onCreate() {
-        eventBus.register(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroy() {
-        eventBus.unregister(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -39,10 +41,17 @@ public class PeopleListPresenterImpl implements PeopleListPresenter {
         peopleListModel.loadPeople(page);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(PeopleListEvent event) {
-        onPeoplePageLoaded(event.getPeople());
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onPeopleListEvent(Object event) {
+        if (event instanceof PeopleListEvent) {
+            onPeoplePageLoaded(((PeopleListEvent)event).getPeople());
+        } else if (event instanceof PersonSelectedEvent) {
+            peopleListModel.deletePerson(((PersonSelectedEvent)event).getPersonId());
+        } else if (event instanceof PersonDeletedEvent) {
+            loadPeople(1);
+        }
     }
+
 
     public void onPeoplePageLoaded(List<Person> people) {
         peopleListView.onPeoplePageLoaded(people);

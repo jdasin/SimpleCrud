@@ -8,4 +8,5 @@ public interface PeopleListPresenter {
     public void onCreate();
     public void onDestroy();
     public void loadPeople(int page);
+
 }

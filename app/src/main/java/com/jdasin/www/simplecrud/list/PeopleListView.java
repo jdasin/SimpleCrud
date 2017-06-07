@@ -12,4 +12,5 @@ public interface PeopleListView {
     void showSpinner();
     void hideSpinner();
     void onPeoplePageLoaded(List<Person> person);
+    void onPersonSelected(int personId);
 }
