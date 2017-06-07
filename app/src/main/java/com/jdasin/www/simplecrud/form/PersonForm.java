@@ -31,7 +31,7 @@ public class PersonForm extends AppCompatActivity implements PersonFormView {
 
     private Person person;
     private PersonFormPresenter presenter;
-
+    private Integer personId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +45,16 @@ public class PersonForm extends AppCompatActivity implements PersonFormView {
     protected void onStart() {
         super.onStart();
         presenter.onStart();
-        presenter.loadPerson(null);
+        if (this.getIntent() != null) {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                personId = bundle.getInt("personId");
+                presenter.loadPerson(personId);
+            } else {
+                presenter.loadPerson(null);
+            }
+
+        }
     }
 
     @Override
@@ -56,12 +65,21 @@ public class PersonForm extends AppCompatActivity implements PersonFormView {
 
     @Override
     public void showLoader() {
-
+        //TODO Add loader not only disable inputs
+        cancelButton.setEnabled(false);
+        saveButton.setEnabled(false);
+        nameField.setEnabled(false);
+        phoneField.setEnabled(false);
+        emailField.setEnabled(false);
     }
 
     @Override
     public void hideLoader() {
-
+        cancelButton.setEnabled(true);
+        saveButton.setEnabled(true);
+        nameField.setEnabled(true);
+        phoneField.setEnabled(true);
+        emailField.setEnabled(true);
     }
 
     @Override

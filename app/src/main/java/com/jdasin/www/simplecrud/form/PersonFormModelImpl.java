@@ -3,6 +3,7 @@ package com.jdasin.www.simplecrud.form;
 import com.jdasin.www.simplecrud.entities.Person;
 import com.jdasin.www.simplecrud.entities.Person_Table;
 import com.jdasin.www.simplecrud.form.events.PersonFormEvent;
+import com.jdasin.www.simplecrud.form.events.PersonFormEventType;
 import com.jdasin.www.simplecrud.list.events.PeopleListEvent;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -29,7 +30,7 @@ public class PersonFormModelImpl implements PersonFormModel{
         } catch (Exception ex) {
             errors = ex.getMessage();
         }
-        EventBus.getDefault().post(new PersonFormEvent(person, errors == null, errors));
+        EventBus.getDefault().post(new PersonFormEvent(person, errors == null, errors, PersonFormEventType.LOADED));
     }
 
     @Override
@@ -40,6 +41,6 @@ public class PersonFormModelImpl implements PersonFormModel{
         } catch (Exception ex) {
             errors = ex.getMessage();
         }
-        EventBus.getDefault().post(new PersonFormEvent(person, errors == null, errors));
+        EventBus.getDefault().post(new PersonFormEvent(person, errors == null, errors, PersonFormEventType.SAVED));
     }
 }

@@ -7,12 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jdasin.www.simplecrud.R;
 import com.jdasin.www.simplecrud.entities.Person;
-import com.jdasin.www.simplecrud.list.events.PeopleListEvent;
 import com.jdasin.www.simplecrud.list.events.PersonSelectedEvent;
+import com.jdasin.www.simplecrud.list.events.PersonSelectedEventType;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -77,13 +76,13 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
             getEditPersonButton().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    eventBus.postSticky(new PersonSelectedEvent(personId));
+                    eventBus.post(new PersonSelectedEvent(personId, PersonSelectedEventType.UPDATE));
                 }
             });
             getDeletePersonButton().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    eventBus.postSticky(new PersonSelectedEvent(personId));
+                    eventBus.post(new PersonSelectedEvent(personId, PersonSelectedEventType.DELETE));
                 }
             });
         }

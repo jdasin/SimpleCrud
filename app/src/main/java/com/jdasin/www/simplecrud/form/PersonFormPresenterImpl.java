@@ -2,6 +2,7 @@ package com.jdasin.www.simplecrud.form;
 
 import com.jdasin.www.simplecrud.entities.Person;
 import com.jdasin.www.simplecrud.form.events.PersonFormEvent;
+import com.jdasin.www.simplecrud.form.events.PersonFormEventType;
 import com.jdasin.www.simplecrud.list.events.PeopleListEvent;
 import com.jdasin.www.simplecrud.list.events.PersonSelectedEvent;
 
@@ -24,11 +25,13 @@ public class PersonFormPresenterImpl implements PersonFormPresenter {
 
     @Override
     public void loadPerson(Integer personId) {
+        view.showLoader();
         model.loadPerson(personId);
     }
 
     @Override
     public void savePerson(Person person) {
+        view.showLoader();
         model.savePerson(person);
     }
 
@@ -48,9 +51,13 @@ public class PersonFormPresenterImpl implements PersonFormPresenter {
             PersonFormEvent pfEvent = (PersonFormEvent)event;
             if (pfEvent.getSucces()) {
                 view.loadPerson(pfEvent.getPerson());
+                if (pfEvent.getEventType() == PersonFormEventType.SAVED) {
+                    view.closeForm();
+                }
             } else {
                 view.showError(pfEvent.getError());
             }
+            view.hideLoader();
         }
 
     }

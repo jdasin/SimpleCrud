@@ -4,6 +4,7 @@ import com.jdasin.www.simplecrud.entities.Person;
 import com.jdasin.www.simplecrud.list.events.PeopleListEvent;
 import com.jdasin.www.simplecrud.list.events.PersonDeletedEvent;
 import com.jdasin.www.simplecrud.list.events.PersonSelectedEvent;
+import com.jdasin.www.simplecrud.list.events.PersonSelectedEventType;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,12 +42,18 @@ public class PeopleListPresenterImpl implements PeopleListPresenter {
         peopleListModel.loadPeople(page);
     }
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPeopleListEvent(Object event) {
         if (event instanceof PeopleListEvent) {
             onPeoplePageLoaded(((PeopleListEvent)event).getPeople());
         } else if (event instanceof PersonSelectedEvent) {
-            peopleListModel.deletePerson(((PersonSelectedEvent)event).getPersonId());
+            PersonSelectedEvent psEvent = (PersonSelectedEvent)event;
+            if (psEvent.getEventType() == PersonSelectedEventType.UPDATE) {
+                peopleListView.onPersonSelected(psEvent.getPersonId());
+            } else {
+                peopleListModel.deletePerson(psEvent.getPersonId());
+            }
+
         } else if (event instanceof PersonDeletedEvent) {
             loadPeople(1);
         }

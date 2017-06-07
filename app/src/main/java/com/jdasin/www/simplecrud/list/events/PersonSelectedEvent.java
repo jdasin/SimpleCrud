@@ -6,9 +6,10 @@ package com.jdasin.www.simplecrud.list.events;
 
 public class PersonSelectedEvent {
     private int personId;
-
-    public PersonSelectedEvent(int personId) {
+    private PersonSelectedEventType eventType;
+    public PersonSelectedEvent(int personId, PersonSelectedEventType eventType) {
         this.personId = personId;
+        this.setEventType(eventType);
     }
 
     public int getPersonId() {
@@ -17,5 +18,13 @@ public class PersonSelectedEvent {
 
     public void setPersonId(int personId) {
         this.personId = personId;
+    }
+
+    public PersonSelectedEventType getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(PersonSelectedEventType eventType) {
+        this.eventType = eventType;
     }
 }

@@ -5,4 +5,6 @@
     <string name="personform.name">Name</string>
     <string name="personform.save">save</string>
     <string name="personform.cancel">Cancel</string>
+    <string name="personform.phone">Phone</string>
+    <string name="personform.email">Email</string>
 </resources>

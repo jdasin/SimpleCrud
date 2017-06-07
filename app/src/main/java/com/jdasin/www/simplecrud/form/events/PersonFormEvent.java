@@ -10,11 +10,12 @@ public class PersonFormEvent {
     private Person person;
     private Boolean succes;
     private String error;
-
-    public PersonFormEvent(Person person, Boolean succes, String error) {
+    private PersonFormEventType eventType;
+    public PersonFormEvent(Person person, Boolean succes, String error, PersonFormEventType eventType) {
         this.person = person;
         this.succes = succes;
         this.error = error;
+        this.setEventType(eventType);
     }
 
     public Person getPerson() {
@@ -39,5 +40,13 @@ public class PersonFormEvent {
 
     public void setError(String error) {
         this.error = error;
+    }
+
+    public PersonFormEventType getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(PersonFormEventType eventType) {
+        this.eventType = eventType;
     }
 }

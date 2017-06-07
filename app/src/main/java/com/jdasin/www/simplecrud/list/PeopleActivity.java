@@ -92,12 +92,13 @@ public class PeopleActivity extends AppCompatActivity implements PeopleListView 
         this.people.clear();
         this.people.addAll(people);
         personAdapter.notifyDataSetChanged();
-        Toast.makeText(this, "load", Toast.LENGTH_SHORT);
     }
 
     @Override
     public void onPersonSelected(int personId) {
-        Toast.makeText(this, "" + personId, Toast.LENGTH_SHORT);
+        Intent intent = new Intent(this, PersonForm.class);
+        intent.putExtra("personId", personId);
+        this.startActivity(intent);
     }
 
     @OnClick(R.id.add_person_button)
