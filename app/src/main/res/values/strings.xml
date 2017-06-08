@@ -7,4 +7,6 @@
     <string name="personform.cancel">Cancel</string>
     <string name="personform.phone">Phone</string>
     <string name="personform.email">Email</string>
+    <string name="personform.birthdate">Birthdate</string>
+    <string name="personform.address">Address</string>
 </resources>

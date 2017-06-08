@@ -1,37 +1,46 @@
 package com.jdasin.www.simplecrud.form;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.jdasin.www.simplecrud.R;
 import com.jdasin.www.simplecrud.entities.Person;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PersonForm extends AppCompatActivity implements PersonFormView {
+public class PersonForm extends AppCompatActivity implements PersonFormView, DatePickerDialog.OnDateSetListener {
 
     @BindView(R.id.name_field)
     EditText nameField;
     @BindView(R.id.email_field)
     EditText emailField;
-    /*@BindView(R.id.date_field)
-    EditText dateField;*/
+    @BindView(R.id.date_field)
+    EditText dateField;
     @BindView(R.id.phone_field)
     EditText phoneField;
     @BindView(R.id.save_button)
     Button saveButton;
     @BindView(R.id.cancel_button)
     Button cancelButton;
+    @BindView(R.id.address_field)
+    EditText addressField;
 
     private Person person;
     private PersonFormPresenter presenter;
     private Integer personId;
+    public static final String DATE_FORMAT = "dd/MMM/yyyy";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +80,8 @@ public class PersonForm extends AppCompatActivity implements PersonFormView {
         nameField.setEnabled(false);
         phoneField.setEnabled(false);
         emailField.setEnabled(false);
+        dateField.setEnabled(false);
+        addressField.setEnabled(false);
     }
 
     @Override
@@ -80,6 +91,8 @@ public class PersonForm extends AppCompatActivity implements PersonFormView {
         nameField.setEnabled(true);
         phoneField.setEnabled(true);
         emailField.setEnabled(true);
+        dateField.setEnabled(true);
+        addressField.setEnabled(true);
     }
 
     @Override
@@ -92,6 +105,12 @@ public class PersonForm extends AppCompatActivity implements PersonFormView {
         nameField.setText(person.getName());
         emailField.setText(person.getEmail());
         phoneField.setText(person.getPhoneNumber());
+        addressField.setText(person.getAddress());
+        if (person.getBirthDate() != null) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+            String formatedDate = simpleDateFormat.format(person.getBirthDate().getTime());
+            dateField.setText(formatedDate);
+        }
     }
 
     @Override
@@ -101,7 +120,7 @@ public class PersonForm extends AppCompatActivity implements PersonFormView {
 
     @Override
     public void showError(String error) {
-        Toast.makeText(this, "Error:" + error, Toast.LENGTH_SHORT);
+        Snackbar.make(nameField, "Error:" + error, Snackbar.LENGTH_SHORT);
     }
 
     @OnClick({R.id.save_button, R.id.cancel_button})
@@ -121,5 +140,26 @@ public class PersonForm extends AppCompatActivity implements PersonFormView {
         person.setName(nameField.getText().toString());
         person.setEmail(emailField.getText().toString());
         person.setPhoneNumber(phoneField.getText().toString());
+        person.setAddress(addressField.getText().toString());
+    }
+
+    @OnClick(R.id.date_field)
+    public void onViewClicked() {
+        Calendar calendar = Calendar.getInstance();
+        new DatePickerDialog(PersonForm.this, PersonForm.this, calendar
+                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+        String formatedDate = simpleDateFormat.format(calendar.getTime());
+        dateField.setText(formatedDate);
+        person.setDateFromString(formatedDate, DATE_FORMAT);
     }
 }

@@ -6,6 +6,8 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -86,5 +88,15 @@ public class Person extends BaseModel {
 
     public void setPersonId(int personId) {
         this.personId = personId;
+    }
+
+    public void setDateFromString(String date, String format) {
+        SimpleDateFormat sf = new SimpleDateFormat(format);
+        sf.setLenient(true);
+        try {
+            this.birthDate = sf.parse(date);
+        } catch (ParseException e) {
+            this.birthDate = null;
+        }
     }
 }
