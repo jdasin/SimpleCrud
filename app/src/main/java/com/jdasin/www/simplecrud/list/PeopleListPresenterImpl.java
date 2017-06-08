@@ -27,12 +27,12 @@ public class PeopleListPresenterImpl implements PeopleListPresenter {
     }
 
     @Override
-    public void onCreate() {
+    public void onStart() {
         EventBus.getDefault().register(this);
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
         EventBus.getDefault().unregister(this);
     }
 
@@ -58,7 +58,6 @@ public class PeopleListPresenterImpl implements PeopleListPresenter {
             loadPeople(1);
         }
     }
-
 
     public void onPeoplePageLoaded(List<Person> people) {
         peopleListView.onPeoplePageLoaded(people);

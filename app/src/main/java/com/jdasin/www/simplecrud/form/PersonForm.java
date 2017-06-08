@@ -20,8 +20,8 @@ public class PersonForm extends AppCompatActivity implements PersonFormView {
     EditText nameField;
     @BindView(R.id.email_field)
     EditText emailField;
-    @BindView(R.id.date_field)
-    EditText dateField;
+    /*@BindView(R.id.date_field)
+    EditText dateField;*/
     @BindView(R.id.phone_field)
     EditText phoneField;
     @BindView(R.id.save_button)

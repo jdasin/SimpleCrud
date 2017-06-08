@@ -5,8 +5,8 @@ package com.jdasin.www.simplecrud.list;
  */
 
 public interface PeopleListPresenter {
-    public void onCreate();
-    public void onDestroy();
+    public void onStart();
+    public void onStop();
     public void loadPeople(int page);
 
 }

@@ -7,16 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.jdasin.www.simplecrud.R;
 import com.jdasin.www.simplecrud.entities.Person;
 import com.jdasin.www.simplecrud.form.PersonForm;
-import com.jdasin.www.simplecrud.list.events.PersonSelectedEvent;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,20 +43,20 @@ public class PeopleActivity extends AppCompatActivity implements PeopleListView 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people);
         ButterKnife.bind(this);
-        presenter = new PeopleListPresenterImpl(this);
-//        EventBus.getDefault().register(this);
         people = new ArrayList<>();
         peopleRV.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         peopleRV.setLayoutManager(layoutManager);
         personAdapter = new PersonAdapter(people);
         peopleRV.setAdapter(personAdapter);
+        presenter = new PeopleListPresenterImpl(this);
     }
+
 
     @Override
     protected void onStart() {
         super.onStart();
-        presenter.onCreate();
+        presenter.onStart();
     }
 
     @Override
@@ -74,7 +68,7 @@ public class PeopleActivity extends AppCompatActivity implements PeopleListView 
     @Override
     protected void onStop() {
         super.onStop();
-        presenter.onDestroy();
+        presenter.onStop();
     }
 
     @Override
